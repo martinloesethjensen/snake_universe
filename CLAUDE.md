@@ -4,9 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Monorepo with two Dart packages:
+Monorepo with two Dart packages and packages folder with shared packages:
 - `snake_game/` — Flutter + Flame 2D snake game (retro 8-bit style)
 - `snake_backend/` — Dart Frog web backend, hosted on Globe (globe.dev)
+- `packages/` — shared packages
 
 ## Commands
 
@@ -17,6 +18,7 @@ cd snake_game
 flutter pub get          # install dependencies
 flutter run              # run on connected device/emulator
 flutter run -d chrome    # run on web
+flutter run -d macos     # run on macOS
 flutter test             # run all tests
 flutter test test/widget_test.dart  # run a single test file
 flutter analyze          # lint

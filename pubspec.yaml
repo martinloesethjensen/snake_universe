@@ -1,0 +1,10 @@
+name: snake_universe
+publish_to: none
+
+environment:
+  sdk: ">= 3.11.0 < 4.0.0"
+
+workspace:
+  - packages/*
+  - snake_game
+  - snake_backend
