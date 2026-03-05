@@ -10,33 +10,27 @@ import 'package:google_fonts/google_fonts.dart';
 import 'components/food_component.dart';
 import 'components/game_board.dart';
 import 'components/snake_component.dart';
-import 'constants.dart';
+import 'game_layout.dart';
+
+export 'game_layout.dart';
 
 enum Direction { up, down, left, right }
 
 /// Overlay key constants — used by both [SnakeGame] and main.dart.
+const kOverlayStartScreen = 'StartScreen';
 const kOverlayGameOver = 'GameOver';
 const kOverlayLeaderboard = 'Leaderboard';
 const kOverlayPause = 'Pause';
 
-/// A fully playable Snake game built with Flame 1.x.
+/// A fully playable Snake game built with Flame.
 ///
-/// Architecture:
-///   - Fixed virtual resolution (480×520) via [CameraComponent.withFixedResolution]
-///     so the game scales correctly on every screen size.
-///   - Grid positions use [Point<int>] from dart:math, which provides correct
-///     value equality (unlike [Vector2] which compares by reference).
-///   - Visual components ([SnakeComponent], [FoodComponent], [GameBoard]) live
-///     in the [World]; the score [TextComponent] lives in the viewport (HUD).
-///   - Input: Arrow keys / WASD for desktop; swipe gestures for mobile/web.
+/// Layout is computed from the actual canvas size so the grid fills the screen
+/// in both portrait (mobile) and landscape (desktop) orientations.
 class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
-  SnakeGame()
-    : super(
-        camera: CameraComponent.withFixedResolution(
-          width: kGameW,
-          height: kGameH,
-        ),
-      );
+  // ── Layout ─────────────────────────────────────────────────────────────────
+
+  /// Current responsive layout. Updated on [onGameResize].
+  late GameLayout layout;
 
   // ── Game state ─────────────────────────────────────────────────────────────
   Direction _currentDir = Direction.right;
@@ -49,6 +43,8 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
   int _score = 0;
   bool _isGameOver = false;
   bool _isPaused = false;
+  bool _rebuilding = false; // true while components are being torn down/rebuilt
+  bool _waitingToStart = true; // true on start screen, before the first move
 
   /// True while the leaderboard is open over a live game (not game-over).
   bool _leaderboardPausedGame = false;
@@ -57,6 +53,7 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
   double _moveSpeed = 0.18; // seconds between steps; decreases as score grows
 
   // ── Components ─────────────────────────────────────────────────────────────
+  late GameBoard _board;
   late SnakeComponent _snakeComp;
   late FoodComponent _foodComp;
   late TextComponent _scoreText;
@@ -71,6 +68,14 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
 
   /// Final score to display in the Game Over overlay.
   int get finalScore => _score;
+
+  /// Called by the start-screen overlay (tap or key press) to begin play.
+  void startGame() {
+    if (!_waitingToStart) return;
+    _waitingToStart = false;
+    pauseButtonVisibleNotifier.value = true;
+    overlays.remove(kOverlayStartScreen);
+  }
 
   /// Remove game-over overlay and restart.
   void restart() {
@@ -127,44 +132,53 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
+    layout = GameLayout.forCanvas(size.x, size.y);
 
-    // Place world origin at top-left so grid coords map naturally.
+    // World origin at top-left; camera shows world at 1-to-1 pixel scale.
     camera.viewfinder.anchor = Anchor.topLeft;
+    camera.viewfinder.position = Vector2.zero();
 
     _initState();
+    await _buildComponents();
+    _showStartScreen();
+  }
 
-    // World components
-    await world.add(GameBoard());
+  @override
+  void onGameResize(Vector2 size) {
+    super.onGameResize(size);
+    if (!isLoaded) return;
 
-    _snakeComp = SnakeComponent();
-    await world.add(_snakeComp);
+    final newLayout = GameLayout.forCanvas(size.x, size.y);
+    if (layout.sameGrid(newLayout)) {
+      // Cell size may have changed slightly — update layout so components
+      // pick up the new dimensions on their next render without a full reset.
+      layout = newLayout;
+      _updateComponentLayouts();
+      return;
+    }
 
-    _foodComp = FoodComponent();
-    await world.add(_foodComp);
-    _syncFood();
-
-    // Score HUD — lives in viewport space so it overlays the HUD strip.
-    _scoreText = TextComponent(
-      text: 'SCORE: 0',
-      textRenderer: TextPaint(
-        style: GoogleFonts.pressStart2p(
-          textStyle: const TextStyle(
-            color: Color(0xFF39FF14),
-            fontSize: 12,
-            letterSpacing: 1.5,
-          ),
-        ),
-      ),
-      position: Vector2(8, kRows * kCell + 10),
-    );
-    await camera.viewport.add(_scoreText);
+    // Grid dimensions changed (e.g. orientation flip) — full reinitialisation.
+    // Defer to a post-frame callback: onGameResize fires inside Flutter's
+    // LayoutBuilder build phase, so any ValueNotifier/overlay mutations here
+    // would crash with "setState() called during build".
+    final capturedLayout = newLayout;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      layout = capturedLayout;
+      _rebuilding = true;
+      _teardownComponents();
+      _initState();
+      _buildComponents().then((_) {
+        _rebuilding = false;
+        _showStartScreen();
+      });
+    });
   }
 
   @override
   void update(double dt) {
     super.update(dt);
 
-    if (_isGameOver || _isPaused) return;
+    if (_isGameOver || _isPaused || _rebuilding || _waitingToStart) return;
 
     _moveTimer += dt;
     if (_moveTimer >= _moveSpeed) {
@@ -178,12 +192,63 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
     _scoreText.text = 'SCORE: $_score';
   }
 
+  // ── Component lifecycle helpers ────────────────────────────────────────────
+
+  Future<void> _buildComponents() async {
+    _board = GameBoard(layout);
+    await world.add(_board);
+
+    _snakeComp = SnakeComponent(layout);
+    await world.add(_snakeComp);
+
+    _foodComp = FoodComponent(layout);
+    await world.add(_foodComp);
+    _syncFood();
+
+    _scoreText = TextComponent(
+      text: 'SCORE: 0',
+      textRenderer: TextPaint(
+        style: GoogleFonts.pressStart2p(
+          textStyle: const TextStyle(
+            color: Color(0xFF39FF14),
+            fontSize: 12,
+            letterSpacing: 1.5,
+          ),
+        ),
+      ),
+      position: Vector2(8, layout.gridH + 10),
+    );
+    await camera.viewport.add(_scoreText);
+  }
+
+  void _teardownComponents() {
+    world.removeAll(world.children.toList());
+    camera.viewport.removeAll(camera.viewport.children.toList());
+    overlays.clear();
+    _isPaused = false;
+    _isGameOver = false;
+    // pauseButtonVisibleNotifier is managed by _showStartScreen / startGame.
+  }
+
+  /// Update layout reference on existing components (no rebuild needed when
+  /// only the cell size changes, not the grid dimensions).
+  void _updateComponentLayouts() {
+    _board.layout = layout;
+    _snakeComp.layout = layout;
+    _foodComp.layout = layout;
+    _scoreText.position = Vector2(8, layout.gridH + 10);
+  }
+
   // ── Game logic ─────────────────────────────────────────────────────────────
 
   void _initState() {
     _snake
       ..clear()
-      ..addAll(const [Point(10, 10), Point(9, 10), Point(8, 10)]);
+      ..addAll([
+        Point(layout.cols ~/ 2, layout.rows ~/ 2),
+        Point(layout.cols ~/ 2 - 1, layout.rows ~/ 2),
+        Point(layout.cols ~/ 2 - 2, layout.rows ~/ 2),
+      ]);
     _currentDir = Direction.right;
     _nextDir = Direction.right;
     _score = 0;
@@ -197,13 +262,13 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
     final rng = Random();
     Point<int> candidate;
     do {
-      candidate = Point(rng.nextInt(kCols), rng.nextInt(kRows));
+      candidate = Point(rng.nextInt(layout.cols), rng.nextInt(layout.rows));
     } while (_snake.contains(candidate));
     _food = candidate;
   }
 
   void _syncFood() {
-    _foodComp.position = Vector2(_food.x * kCell, _food.y * kCell);
+    _foodComp.position = Vector2(_food.x * layout.cell, _food.y * layout.cell);
   }
 
   void _step() {
@@ -216,7 +281,10 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
     };
 
     // Wall collision
-    if (next.x < 0 || next.x >= kCols || next.y < 0 || next.y >= kRows) {
+    if (next.x < 0 ||
+        next.x >= layout.cols ||
+        next.y < 0 ||
+        next.y >= layout.rows) {
       _triggerGameOver();
       return;
     }
@@ -252,6 +320,13 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
     _syncFood();
     _snakeComp.body = List.from(_snake);
     _scoreText.text = 'SCORE: 0';
+    _showStartScreen();
+  }
+
+  void _showStartScreen() {
+    _waitingToStart = true;
+    pauseButtonVisibleNotifier.value = false;
+    overlays.add(kOverlayStartScreen);
   }
 
   // ── Keyboard input (desktop) ───────────────────────────────────────────────
@@ -262,6 +337,20 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
     Set<LogicalKeyboardKey> keysPressed,
   ) {
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
+
+    // Start screen: Enter / Space / any arrow key begins the game.
+    if (_waitingToStart) {
+      if (event.logicalKey == LogicalKeyboardKey.enter ||
+          event.logicalKey == LogicalKeyboardKey.space ||
+          event.logicalKey == LogicalKeyboardKey.arrowUp ||
+          event.logicalKey == LogicalKeyboardKey.arrowDown ||
+          event.logicalKey == LogicalKeyboardKey.arrowLeft ||
+          event.logicalKey == LogicalKeyboardKey.arrowRight) {
+        startGame();
+        return KeyEventResult.handled;
+      }
+      return KeyEventResult.ignored;
+    }
 
     // Block keys when game-over or leaderboard overlays are active.
     if (overlays.isActive(kOverlayGameOver) ||

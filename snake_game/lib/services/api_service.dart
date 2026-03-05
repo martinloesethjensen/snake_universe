@@ -1,31 +1,19 @@
-import 'dart:convert';
-
-import 'package:http/http.dart' as http;
 import 'package:shared_models/shared_models.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ApiService {
-  static const _base = String.fromEnvironment(
-    'API_URL',
-    defaultValue: 'http://localhost:8080',
-  );
+  final _client = Supabase.instance.client;
 
   Future<List<Score>> fetchTopScores() async {
-    final res = await http.get(Uri.parse('$_base/scores'));
-    if (res.statusCode != 200) {
-      throw Exception('fetchTopScores failed: ${res.statusCode}');
-    }
-    final list = jsonDecode(res.body) as List<dynamic>;
-    return list.map((e) => Score.fromJson(e as Map<String, dynamic>)).toList();
+    final data = await _client
+        .from('high_scores')
+        .select('name, score')
+        .order('score', ascending: false)
+        .limit(25);
+    return (data as List).map((e) => Score.fromJson(e as Map<String, dynamic>)).toList();
   }
 
   Future<void> submitScore(Score score) async {
-    final res = await http.post(
-      Uri.parse('$_base/scores'),
-      headers: {'Content-Type': 'application/json'},
-      body: jsonEncode(score.toJson()),
-    );
-    if (res.statusCode != 201) {
-      throw Exception('submitScore failed: ${res.statusCode}');
-    }
+    await _client.from('high_scores').insert(score.toJson());
   }
 }

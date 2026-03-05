@@ -1,61 +1,52 @@
 Running `(cd /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/; TMPDIR=/var/folders/cn/h5s4nm6j3954ttjsfjv4jf340000gn/T/ PATH=/Users/mlj/.local/bin:/Users/mlj/.bun/bin:/Users/mlj/.antigravity/antigravity/bin:/Users/mlj/.pub-cache/bin:/Users/mlj/dev/flutter/bin:/Applications/Ghostty.app/Contents/MacOS:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/opt/pmk/env/global/bin:/Library/Apple/usr/bin:/opt/homebrew/bin:/Users/mlj/.local/bin:/Users/mlj/.bun/bin:/Users/mlj/.cargo/bin HOME=/Users/mlj /Users/mlj/dev/flutter/bin/cache/dart-sdk/bin/dart --packages=/Users/mlj/dev/snake_universe/.dart_tool/package_config.json /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/objective_c/5f31b8d621/hook.dill --config=/Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/objective_c/5f31b8d621/input.json )`.
-INFO: 2026-03-05 02:04:30.525210: Running `/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang --version`.
+INFO: 2026-03-05 23:23:22.789294: Running `/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang --version`.
 
-INFO: 2026-03-05 02:04:30.540816: Running `/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang --version`.
+INFO: 2026-03-05 23:23:22.807828: Running `/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang --version`.
 
-INFO: 2026-03-05 02:04:30.556381: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/dart_api_dl.c -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/include/dart_api_dl.c.o
+INFO: 2026-03-05 23:23:22.822513: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/include/dart_api_dl.c -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/include/dart_api_dl.c.o
 
-INFO: 2026-03-05 02:04:30.556762: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c.c -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c.c.o
+INFO: 2026-03-05 23:23:22.822867: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c.c -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c.c.o
 
-INFO: 2026-03-05 02:04:30.556943: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/test/util.c -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/test/util.c.o
+INFO: 2026-03-05 23:23:22.823167: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/input_stream_adapter.m -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/input_stream_adapter.m.o
 
-INFO: 2026-03-05 02:04:30.557234: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/input_stream_adapter.m -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/input_stream_adapter.m.o
+INFO: 2026-03-05 23:23:22.823283: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c.m -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c.m.o
 
-INFO: 2026-03-05 02:04:30.557373: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c.m -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c.m.o
+INFO: 2026-03-05 23:23:22.823513: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/ns_number.m -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/ns_number.m.o
 
-INFO: 2026-03-05 02:04:30.557482: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/observer.m -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/observer.m.o
+INFO: 2026-03-05 23:23:22.823716: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c_bindings_generated.m -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c_bindings_generated.m.o
 
-INFO: 2026-03-05 02:04:30.557589: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/ns_number.m -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/ns_number.m.o
+INFO: 2026-03-05 23:23:22.898476: 
+INFO: 2026-03-05 23:23:22.898562: 
+INFO: 2026-03-05 23:23:22.898590: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c.c.o
+INFO: 2026-03-05 23:23:22.898664: 
+INFO: 2026-03-05 23:23:22.898676: 
+INFO: 2026-03-05 23:23:22.898686: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/include/dart_api_dl.c.o
 
-INFO: 2026-03-05 02:04:30.557692: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/protocol.m -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/protocol.m.o
+INFO: 2026-03-05 23:23:22.907529: 
+INFO: 2026-03-05 23:23:22.907571: 
+INFO: 2026-03-05 23:23:22.907584: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/test/util.c.o
 
-INFO: 2026-03-05 02:04:30.557796: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 -x objective-c -fobjc-arc -c /Users/mlj/.pub-cache/hosted/pub.dev/objective_c-9.3.0/src/objective_c_bindings_generated.m -fpic -I src -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c_bindings_generated.m.o
+INFO: 2026-03-05 23:23:22.915028: 
+INFO: 2026-03-05 23:23:22.915059: 
+INFO: 2026-03-05 23:23:22.915091: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/observer.m.o
 
-INFO: 2026-03-05 02:04:30.612899: 
-INFO: 2026-03-05 02:04:30.612989: 
-INFO: 2026-03-05 02:04:30.613017: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c.c.o
+INFO: 2026-03-05 23:23:23.114254: 
+INFO: 2026-03-05 23:23:23.114316: 
+INFO: 2026-03-05 23:23:23.114329: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/ns_number.m.o
 
-INFO: 2026-03-05 02:04:30.615966: 
-INFO: 2026-03-05 02:04:30.616033: 
-INFO: 2026-03-05 02:04:30.616046: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/include/dart_api_dl.c.o
+INFO: 2026-03-05 23:23:23.120430: 
+INFO: 2026-03-05 23:23:23.120453: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/input_stream_adapter.m.o
 
-INFO: 2026-03-05 02:04:30.623784: 
-INFO: 2026-03-05 02:04:30.623826: 
-INFO: 2026-03-05 02:04:30.623838: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/test/util.c.o
+/obj/src/objective_c.m.o
+INFO: 2026-03-05 23:23:23.120418: 
 
-INFO: 2026-03-05 02:04:30.645794: 
-INFO: 2026-03-05 02:04:30.645829: 
-INFO: 2026-03-05 02:04:30.645862: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/protocol.m.o
+INFO: 2026-03-05 23:23:23.132268: 
+INFO: 2026-03-05 23:23:23.132305: 
+INFO: 2026-03-05 23:23:23.132316: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c_bindings_generated.m.o
 
-INFO: 2026-03-05 02:04:30.845566: 
-INFO: 2026-03-05 02:04:30.845612: 
-INFO: 2026-03-05 02:04:30.845625: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/ns_number.m.o
+INFO: 2026-03-05 23:23:23.132645: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -shared -Wl,-encryptable -undefined dynamic_lookup -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/include/dart_api_dl.c.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c.c.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/test/util.c.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/input_stream_adapter.m.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c.m.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/observer.m.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/ns_number.m.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/protocol.m.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c_bindings_generated.m.o -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/objective_c.dylib
 
-INFO: 2026-03-05 02:04:30.849610: 
-INFO: 2026-03-05 02:04:30.849659: 
-INFO: 2026-03-05 02:04:30.849683: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c.m.o
-
-INFO: 2026-03-05 02:04:30.851634: 
-INFO: 2026-03-05 02:04:30.851662: 
-INFO: 2026-03-05 02:04:30.851672: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/input_stream_adapter.m.o
-
-INFO: 2026-03-05 02:04:30.875045: 
-INFO: 2026-03-05 02:04:30.875083: 
-INFO: 2026-03-05 02:04:30.875092: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c_bindings_generated.m.o
-
-INFO: 2026-03-05 02:04:30.875440: Running: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -shared -Wl,-encryptable -undefined dynamic_lookup -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX26.2.sdk -target x86_64-apple-darwin -mmacos-version-min=13 /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/include/dart_api_dl.c.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c.c.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/test/util.c.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/input_stream_adapter.m.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c.m.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/observer.m.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/ns_number.m.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/protocol.m.o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/obj/src/objective_c_bindings_generated.m.o -o /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/objective_c.dylib
-
-INFO: 2026-03-05 02:04:30.909291: 
-INFO: 2026-03-05 02:04:30.909346: 
-INFO: 2026-03-05 02:04:30.909356: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/objective_c.dylib
+INFO: 2026-03-05 23:23:23.167809: 
+INFO: 2026-03-05 23:23:23.167898: 
+INFO: 2026-03-05 23:23:23.167910: Generated /Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/objective_c/build/5f31b8d621/objective_c.dylib
 

@@ -1,24 +1,25 @@
-import 'package:drift/drift.dart';
-import 'package:drift/native.dart';
-import 'package:sqlite3/sqlite3.dart';
+import 'dart:io';
 
-part 'database.g.dart';
+import 'package:postgres/postgres.dart';
 
-class HighScores extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get name => text().withLength(min: 1, max: 50)();
-  IntColumn get score => integer()();
-  DateTimeColumn get createdAt => dateTime().withDefault(currentDateAndTime)();
-}
+// ignore: public_member_api_docs
+Pool<Object> createPool() {
+  final url = Platform.environment['DATABASE_URL'] ?? '';
+  if (url.isEmpty) throw StateError('DATABASE_URL env var must be set');
 
-@DriftDatabase(tables: [HighScores])
-class AppDatabase extends _$AppDatabase {
-  AppDatabase() : super(_openConnection());
+  final uri = Uri.parse(url);
+  final userInfo = uri.userInfo.split(':');
 
-  @override
-  int get schemaVersion => 1;
-
-  static QueryExecutor _openConnection() {
-    return NativeDatabase.opened(sqlite3.open('tidy-gazebo.db'));
-  }
+  return Pool<Object>.withEndpoints(
+    [
+      Endpoint(
+        host: uri.host,
+        port: uri.hasPort ? uri.port : 5432,
+        database: uri.path.replaceFirst('/', ''),
+        username: userInfo.first,
+        password: userInfo.length > 1 ? Uri.decodeComponent(userInfo[1]) : null,
+      ),
+    ],
+    settings: const PoolSettings(sslMode: SslMode.require),
+  );
 }

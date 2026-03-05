@@ -1,8 +1,7 @@
 import 'dart:io';
 
 import 'package:dart_frog/dart_frog.dart';
-import 'package:drift/drift.dart';
-import 'package:snake_backend/database.dart';
+import 'package:postgres/postgres.dart';
 
 Future<Response> onRequest(RequestContext context) async {
   return switch (context.request.method) {
@@ -18,14 +17,23 @@ Future<Response> onRequest(RequestContext context) async {
 }
 
 Future<Response> _getScores(RequestContext context) async {
-  final db = context.read<AppDatabase>();
-  final query = db.select(db.highScores)
-    ..orderBy([
-      (hs) => OrderingTerm(expression: hs.score, mode: OrderingMode.desc),
-    ])
-    ..limit(25);
-  final scores = await query.get();
-  return Response.json(body: scores.map((score) => score.toJson()).toList());
+  final pool = context.read<Pool<Object>>();
+  final result = await pool.execute(
+    'SELECT id, name, score, created_at FROM high_scores '
+    'ORDER BY score DESC LIMIT 25',
+  );
+  final scores =
+      result
+          .map(
+            (row) => {
+              'id': row[0],
+              'name': row[1],
+              'score': row[2],
+              'created_at': (row[3] as DateTime?)?.toIso8601String(),
+            },
+          )
+          .toList();
+  return Response.json(body: scores);
 }
 
 Future<Response> _saveScore(RequestContext context) async {
@@ -47,15 +55,22 @@ Future<Response> _saveScore(RequestContext context) async {
     );
   }
 
-  final score = HighScoresCompanion.insert(
-    name: name,
-    score: body['score'] as int? ?? 0,
+  final pool = context.read<Pool<Object>>();
+  final result = await pool.execute(
+    Sql.named(
+      'INSERT INTO high_scores (name, score) VALUES (@name, @score) '
+      'RETURNING id, name, score, created_at',
+    ),
+    parameters: {'name': name, 'score': body['score'] as int? ?? 0},
   );
-  final db = context.read<AppDatabase>();
-  final insertedScore = await db.into(db.highScores).insertReturning(score);
-
+  final row = result.first;
   return Response.json(
     statusCode: HttpStatus.created,
-    body: insertedScore.toJson(),
+    body: {
+      'id': row[0],
+      'name': row[1],
+      'score': row[2],
+      'created_at': (row[3] as DateTime?)?.toIso8601String(),
+    },
   );
 }

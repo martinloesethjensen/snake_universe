@@ -1,11 +1,13 @@
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
-import '../constants.dart';
+import '../game_layout.dart';
 
 /// Renders the static background: dark grid area + HUD strip.
 class GameBoard extends PositionComponent {
-  GameBoard() : super(position: Vector2.zero(), size: Vector2(kGameW, kGameH));
+  GameBoard(this.layout) : super(position: Vector2.zero());
+
+  GameLayout layout;
 
   static const _bgColor = Color(0xFF0D1117);
   static const _hudBg = Color(0xFF07100A);
@@ -24,30 +26,31 @@ class GameBoard extends PositionComponent {
 
   @override
   void render(Canvas canvas) {
+    final l = layout;
+    final gridW = l.gridW;
+    final gridH = l.gridH;
+    final cell = l.cell;
+
     // Game area
-    canvas.drawRect(Rect.fromLTWH(0, 0, kGameW, kRows * kCell), _bgPaint);
+    canvas.drawRect(Rect.fromLTWH(0, 0, gridW, gridH), _bgPaint);
 
     // HUD strip
     canvas.drawRect(
-      Rect.fromLTWH(0, kRows * kCell, kGameW, kHudHeight),
+      Rect.fromLTWH(0, gridH, gridW, l.hudHeight),
       _hudPaint,
     );
 
     // Neon border line between game area and HUD
-    canvas.drawLine(
-      Offset(0, kRows * kCell),
-      Offset(kGameW, kRows * kCell),
-      _borderPaint,
-    );
+    canvas.drawLine(Offset(0, gridH), Offset(gridW, gridH), _borderPaint);
 
     // Subtle grid lines
-    for (var col = 0; col <= kCols; col++) {
-      final x = col * kCell;
-      canvas.drawLine(Offset(x, 0), Offset(x, kRows * kCell), _gridPaint);
+    for (var col = 0; col <= l.cols; col++) {
+      final x = col * cell;
+      canvas.drawLine(Offset(x, 0), Offset(x, gridH), _gridPaint);
     }
-    for (var row = 0; row <= kRows; row++) {
-      final y = row * kCell;
-      canvas.drawLine(Offset(0, y), Offset(kGameW, y), _gridPaint);
+    for (var row = 0; row <= l.rows; row++) {
+      final y = row * cell;
+      canvas.drawLine(Offset(0, y), Offset(gridW, y), _gridPaint);
     }
   }
 }

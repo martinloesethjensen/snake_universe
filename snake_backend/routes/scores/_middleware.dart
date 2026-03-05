@@ -1,8 +1,9 @@
 import 'package:dart_frog/dart_frog.dart';
+import 'package:postgres/postgres.dart';
 import 'package:snake_backend/database.dart';
 
-final _db = AppDatabase();
+final _pool = createPool();
 
 Handler middleware(Handler handler) {
-  return handler.use(provider<AppDatabase>((_) => _db));
+  return handler.use(provider<Pool<Object>>((_) => _pool));
 }

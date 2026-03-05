@@ -4,12 +4,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:snake_game/overlays/game_over_overlay.dart';
 import 'package:snake_game/overlays/leaderboard_overlay.dart';
 import 'package:snake_game/overlays/pause_overlay.dart';
+import 'package:snake_game/overlays/start_overlay.dart';
 import 'package:snake_game/snake_game.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-void main() {
+const _supabaseUrl = String.fromEnvironment('SUPABASE_URL');
+const _supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Font is bundled locally — never fetch from the network.
   GoogleFonts.config.allowRuntimeFetching = false;
+  await Supabase.initialize(url: _supabaseUrl, anonKey: _supabaseAnonKey);
   final game = SnakeGame();
   runApp(_SnakeApp(game: game));
 }
@@ -31,6 +37,7 @@ class _SnakeApp extends StatelessWidget {
             GameWidget<SnakeGame>(
               game: game,
               overlayBuilderMap: {
+                kOverlayStartScreen: (_, g) => StartOverlay(game: g),
                 kOverlayGameOver: (_, g) => GameOverOverlay(game: g),
                 kOverlayLeaderboard: (_, g) => LeaderboardOverlay(game: g),
                 kOverlayPause: (_, g) => PauseOverlay(game: g),

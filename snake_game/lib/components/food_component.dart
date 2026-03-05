@@ -3,11 +3,13 @@ import 'dart:math' show sin;
 import 'package:flame/components.dart';
 import 'package:flutter/painting.dart';
 
-import '../constants.dart';
+import '../game_layout.dart';
 
 /// Renders the food token with a neon-pink pulsing animation.
 class FoodComponent extends PositionComponent {
-  FoodComponent() : super(size: Vector2.all(kCell));
+  FoodComponent(this.layout);
+
+  GameLayout layout;
 
   double _t = 0;
 
@@ -16,12 +18,13 @@ class FoodComponent extends PositionComponent {
 
   @override
   void render(Canvas canvas) {
+    final cell = layout.cell;
     final pulse = (sin(_t * 5) + 1) / 2; // oscillates 0..1
 
     // Outer block (shrinks/grows)
     final pad = 2.0 + pulse * 2.5;
     canvas.drawRect(
-      Rect.fromLTWH(pad, pad, kCell - pad * 2, kCell - pad * 2),
+      Rect.fromLTWH(pad, pad, cell - pad * 2, cell - pad * 2),
       Paint()..color = const Color(0xFFFF3366),
     );
 
