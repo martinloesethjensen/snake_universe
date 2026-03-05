@@ -5,6 +5,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'components/food_component.dart';
 import 'components/game_board.dart';
@@ -16,6 +17,7 @@ enum Direction { up, down, left, right }
 /// Overlay key constants — used by both [SnakeGame] and main.dart.
 const kOverlayGameOver = 'GameOver';
 const kOverlayLeaderboard = 'Leaderboard';
+const kOverlayPause = 'Pause';
 
 /// A fully playable Snake game built with Flame 1.x.
 ///
@@ -64,6 +66,9 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
 
   // ── Public API (used by Flutter overlays) ──────────────────────────────────
 
+  /// Notifies Flutter widgets whether the pause button should be visible.
+  final ValueNotifier<bool> pauseButtonVisibleNotifier = ValueNotifier(true);
+
   /// Final score to display in the Game Over overlay.
   int get finalScore => _score;
 
@@ -71,9 +76,23 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
   void restart() {
     overlays.remove(kOverlayGameOver);
     overlays.remove(kOverlayLeaderboard);
+    overlays.remove(kOverlayPause);
     _isPaused = false;
+    pauseButtonVisibleNotifier.value = true;
     _leaderboardPausedGame = false;
     _restart();
+  }
+
+  /// Toggle pause state (called from pause button or keyboard).
+  void togglePause() {
+    if (_isGameOver || overlays.isActive(kOverlayLeaderboard)) return;
+    _isPaused = !_isPaused;
+    pauseButtonVisibleNotifier.value = !_isPaused;
+    if (_isPaused) {
+      overlays.add(kOverlayPause);
+    } else {
+      overlays.remove(kOverlayPause);
+    }
   }
 
   /// Show the leaderboard (called after score submission or via trophy button).
@@ -83,6 +102,7 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
       _isPaused = true;
       _leaderboardPausedGame = true;
     }
+    pauseButtonVisibleNotifier.value = false;
     overlays.add(kOverlayLeaderboard);
   }
 
@@ -92,6 +112,7 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
     if (_leaderboardPausedGame) {
       _isPaused = false;
       _leaderboardPausedGame = false;
+      pauseButtonVisibleNotifier.value = true;
     } else {
       // Came from game-over flow — restart fresh.
       _restart();
@@ -126,12 +147,12 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
     _scoreText = TextComponent(
       text: 'SCORE: 0',
       textRenderer: TextPaint(
-        style: const TextStyle(
-          color: Color(0xFF39FF14),
-          fontSize: 16,
-          fontFamily: 'monospace',
-          fontWeight: FontWeight.bold,
-          letterSpacing: 1.5,
+        style: GoogleFonts.pressStart2p(
+          textStyle: const TextStyle(
+            color: Color(0xFF39FF14),
+            fontSize: 12,
+            letterSpacing: 1.5,
+          ),
         ),
       ),
       position: Vector2(8, kRows * kCell + 10),
@@ -222,6 +243,7 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
 
   void _triggerGameOver() {
     _isGameOver = true;
+    pauseButtonVisibleNotifier.value = false;
     overlays.add(kOverlayGameOver);
   }
 
@@ -241,7 +263,7 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
   ) {
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
 
-    // Overlays are active — let Flutter widgets handle their own input.
+    // Block keys when game-over or leaderboard overlays are active.
     if (overlays.isActive(kOverlayGameOver) ||
         overlays.isActive(kOverlayLeaderboard)) {
       return KeyEventResult.ignored;
@@ -261,7 +283,7 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
       if (_currentDir != Direction.left) _nextDir = Direction.right;
     } else if (event.logicalKey == LogicalKeyboardKey.keyP ||
         event.logicalKey == LogicalKeyboardKey.escape) {
-      _isPaused = !_isPaused;
+      togglePause();
     } else {
       return KeyEventResult.ignored;
     }

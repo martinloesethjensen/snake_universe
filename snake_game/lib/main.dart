@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snake_game/overlays/game_over_overlay.dart';
 import 'package:snake_game/overlays/leaderboard_overlay.dart';
+import 'package:snake_game/overlays/pause_overlay.dart';
 import 'package:snake_game/snake_game.dart';
 
 void main() {
@@ -32,7 +33,22 @@ class _SnakeApp extends StatelessWidget {
               overlayBuilderMap: {
                 kOverlayGameOver: (_, g) => GameOverOverlay(game: g),
                 kOverlayLeaderboard: (_, g) => LeaderboardOverlay(game: g),
+                kOverlayPause: (_, g) => PauseOverlay(game: g),
               },
+            ),
+            // Pause button — anchored to the bottom-center of the HUD strip.
+            // Hidden from interaction while the pause overlay is shown.
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              height: 40,
+              child: ValueListenableBuilder<bool>(
+                valueListenable: game.pauseButtonVisibleNotifier,
+                builder: (_, visible, child) =>
+                    Visibility(visible: visible, child: child!),
+                child: Center(child: _PauseButton(game: game)),
+              ),
             ),
             // Trophy button — anchored to the bottom-right of the HUD strip.
             Positioned(
@@ -42,6 +58,26 @@ class _SnakeApp extends StatelessWidget {
               child: _TrophyButton(game: game),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _PauseButton extends StatelessWidget {
+  const _PauseButton({required this.game});
+
+  final SnakeGame game;
+
+  @override
+  Widget build(BuildContext context) {
+    return Tooltip(
+      message: 'Pause (P / Esc)',
+      child: GestureDetector(
+        onTap: game.togglePause,
+        child: const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8),
+          child: Icon(Icons.pause_outlined, color: Color(0xFF39FF14), size: 22),
         ),
       ),
     );
