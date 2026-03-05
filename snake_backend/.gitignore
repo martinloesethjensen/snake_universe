@@ -14,3 +14,6 @@ build/
 
 # Test related files
 coverage/
+
+# SQLite database files (use Globe DB in production)
+*.db

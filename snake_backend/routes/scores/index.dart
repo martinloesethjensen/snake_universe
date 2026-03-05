@@ -8,9 +8,11 @@ Future<Response> onRequest(RequestContext context) async {
   return switch (context.request.method) {
     HttpMethod.get => _getScores(context),
     HttpMethod.post => _saveScore(context),
-    _ => Response(
-      statusCode: HttpStatus.methodNotAllowed,
-      body: 'Method Not Allowed',
+    _ => Future.value(
+      Response(
+        statusCode: HttpStatus.methodNotAllowed,
+        body: 'Method Not Allowed',
+      ),
     ),
   };
 }

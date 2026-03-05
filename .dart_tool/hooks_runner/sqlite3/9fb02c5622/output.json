@@ -2,7 +2,7 @@
   "assets": [
     {
       "encoding": {
-        "file": "/Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/sqlite3/build/download-e53249e/libsqlite3.dylib",
+        "file": "/Users/mlj/dev/snake_universe/.dart_tool/hooks_runner/shared/sqlite3/build/download-2a1e709/libsqlite3.dylib",
         "id": "package:sqlite3/src/ffi/libsqlite3.g.dart",
         "link_mode": {
           "type": "dynamic_loading_bundle"
@@ -13,5 +13,5 @@
   ],
   "assets_for_linking": {},
   "status": "success",
-  "timestamp": "2026-03-05 01:29:17.000"
+  "timestamp": "2026-03-05 12:15:42.000"
 }
