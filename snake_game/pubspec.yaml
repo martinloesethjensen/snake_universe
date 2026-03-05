@@ -6,6 +6,8 @@ version: 1.0.0+1
 environment:
   sdk: ">=3.11.0 <4.0.0"
 
+resolution: workspace
+
 dependencies:
   flutter:
     sdk: flutter
@@ -17,6 +19,7 @@ dependencies:
   google_fonts: ^6.1.0
 
   shared_models: any
+  http: ^1.6.0
 
 dev_dependencies:
   flutter_test:
@@ -25,5 +28,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
-
-resolution: workspace
+  assets:
+    - fonts/PressStart2P-Regular.ttf
+  fonts:
+    - family: PressStart2P
+      fonts:
+        - asset: fonts/PressStart2P-Regular.ttf

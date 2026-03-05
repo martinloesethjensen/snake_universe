@@ -518,12 +518,6 @@
       "languageVersion": "3.11"
     },
     {
-      "name": "shared_models",
-      "rootUri": "../packages/shared_models",
-      "packageUri": "lib/",
-      "languageVersion": "3.11"
-    },
-    {
       "name": "snake_game",
       "rootUri": "../snake_game",
       "packageUri": "lib/",
@@ -532,6 +526,12 @@
     {
       "name": "snake_backend",
       "rootUri": "../snake_backend",
+      "packageUri": "lib/",
+      "languageVersion": "3.11"
+    },
+    {
+      "name": "shared_models",
+      "rootUri": "../packages/shared_models",
       "packageUri": "lib/",
       "languageVersion": "3.11"
     }

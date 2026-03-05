@@ -5,11 +5,7 @@ import '../constants.dart';
 
 /// Renders the static background: dark grid area + HUD strip.
 class GameBoard extends PositionComponent {
-  GameBoard()
-      : super(
-          position: Vector2.zero(),
-          size: Vector2(kGameW, kGameH),
-        );
+  GameBoard() : super(position: Vector2.zero(), size: Vector2(kGameW, kGameH));
 
   static const _bgColor = Color(0xFF0D1117);
   static const _hudBg = Color(0xFF07100A);
@@ -29,10 +25,7 @@ class GameBoard extends PositionComponent {
   @override
   void render(Canvas canvas) {
     // Game area
-    canvas.drawRect(
-      Rect.fromLTWH(0, 0, kGameW, kRows * kCell),
-      _bgPaint,
-    );
+    canvas.drawRect(Rect.fromLTWH(0, 0, kGameW, kRows * kCell), _bgPaint);
 
     // HUD strip
     canvas.drawRect(

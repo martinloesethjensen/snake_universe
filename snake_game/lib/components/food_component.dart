@@ -28,7 +28,8 @@ class FoodComponent extends PositionComponent {
     // Bright inner pixel highlight
     canvas.drawRect(
       Rect.fromLTWH(pad + 2, pad + 2, 4, 4),
-      Paint()..color = Color.fromARGB((120 + (pulse * 135).round()), 255, 200, 220),
+      Paint()
+        ..color = Color.fromARGB((120 + (pulse * 135).round()), 255, 200, 220),
     );
   }
 }

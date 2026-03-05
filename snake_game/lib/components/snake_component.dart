@@ -41,9 +41,15 @@ class SnakeComponent extends Component {
     // Eyes
     final eyeR = kCell * 0.11;
     canvas.drawCircle(
-        Offset(x + kCell * 0.28, y + kCell * 0.30), eyeR, Paint()..color = _eyeColor);
+      Offset(x + kCell * 0.28, y + kCell * 0.30),
+      eyeR,
+      Paint()..color = _eyeColor,
+    );
     canvas.drawCircle(
-        Offset(x + kCell * 0.72, y + kCell * 0.30), eyeR, Paint()..color = _eyeColor);
+      Offset(x + kCell * 0.72, y + kCell * 0.30),
+      eyeR,
+      Paint()..color = _eyeColor,
+    );
   }
 
   void _renderSegment(Canvas canvas, double x, double y, int index, int total) {

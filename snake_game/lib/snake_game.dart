@@ -13,6 +13,10 @@ import 'constants.dart';
 
 enum Direction { up, down, left, right }
 
+/// Overlay key constants — used by both [SnakeGame] and main.dart.
+const kOverlayGameOver = 'GameOver';
+const kOverlayLeaderboard = 'Leaderboard';
+
 /// A fully playable Snake game built with Flame 1.x.
 ///
 /// Architecture:
@@ -23,14 +27,14 @@ enum Direction { up, down, left, right }
 ///   - Visual components ([SnakeComponent], [FoodComponent], [GameBoard]) live
 ///     in the [World]; the score [TextComponent] lives in the viewport (HUD).
 ///   - Input: Arrow keys / WASD for desktop; swipe gestures for mobile/web.
-class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks, TapCallbacks {
+class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
   SnakeGame()
-      : super(
-          camera: CameraComponent.withFixedResolution(
-            width: kGameW,
-            height: kGameH,
-          ),
-        );
+    : super(
+        camera: CameraComponent.withFixedResolution(
+          width: kGameW,
+          height: kGameH,
+        ),
+      );
 
   // ── Game state ─────────────────────────────────────────────────────────────
   Direction _currentDir = Direction.right;
@@ -44,6 +48,9 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks, TapCallbac
   bool _isGameOver = false;
   bool _isPaused = false;
 
+  /// True while the leaderboard is open over a live game (not game-over).
+  bool _leaderboardPausedGame = false;
+
   double _moveTimer = 0;
   double _moveSpeed = 0.18; // seconds between steps; decreases as score grows
 
@@ -51,10 +58,45 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks, TapCallbac
   late SnakeComponent _snakeComp;
   late FoodComponent _foodComp;
   late TextComponent _scoreText;
-  late TextComponent _gameOverText;
 
   // ── Drag tracking (swipe input) ─────────────────────────────────────────────
   final Vector2 _dragDelta = Vector2.zero();
+
+  // ── Public API (used by Flutter overlays) ──────────────────────────────────
+
+  /// Final score to display in the Game Over overlay.
+  int get finalScore => _score;
+
+  /// Remove game-over overlay and restart.
+  void restart() {
+    overlays.remove(kOverlayGameOver);
+    overlays.remove(kOverlayLeaderboard);
+    _isPaused = false;
+    _leaderboardPausedGame = false;
+    _restart();
+  }
+
+  /// Show the leaderboard (called after score submission or via trophy button).
+  void openLeaderboard() {
+    overlays.remove(kOverlayGameOver);
+    if (!_isGameOver) {
+      _isPaused = true;
+      _leaderboardPausedGame = true;
+    }
+    overlays.add(kOverlayLeaderboard);
+  }
+
+  /// Close the leaderboard and resume or restart as appropriate.
+  void closeLeaderboard() {
+    overlays.remove(kOverlayLeaderboard);
+    if (_leaderboardPausedGame) {
+      _isPaused = false;
+      _leaderboardPausedGame = false;
+    } else {
+      // Came from game-over flow — restart fresh.
+      _restart();
+    }
+  }
 
   // ── FlameGame overrides ────────────────────────────────────────────────────
 
@@ -95,28 +137,10 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks, TapCallbac
       position: Vector2(8, kRows * kCell + 10),
     );
     await camera.viewport.add(_scoreText);
-
-    // Game-over overlay — lives in world space, added/removed dynamically.
-    _gameOverText = TextComponent(
-      text: '',
-      textRenderer: TextPaint(
-        style: const TextStyle(
-          color: Color(0xFFFF3366),
-          fontSize: 16,
-          fontFamily: 'monospace',
-          fontWeight: FontWeight.bold,
-          letterSpacing: 2,
-          height: 1.8,
-        ),
-      ),
-      anchor: Anchor.center,
-      position: Vector2(kGameW / 2, kRows * kCell / 2),
-    );
   }
 
   @override
   void update(double dt) {
-    // Always update children (food pulse animation, etc.)
     super.update(dt);
 
     if (_isGameOver || _isPaused) return;
@@ -176,8 +200,7 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks, TapCallbac
       return;
     }
 
-    // Self-collision — exclude the tail because it will vacate its cell
-    // (unless we grow, but food can never be on the tail cell due to _spawnFood).
+    // Self-collision — exclude the tail because it will vacate its cell.
     final bodyWithoutTail = _snake.sublist(0, _snake.length - 1);
     if (bodyWithoutTail.contains(next)) {
       _triggerGameOver();
@@ -199,14 +222,14 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks, TapCallbac
 
   void _triggerGameOver() {
     _isGameOver = true;
-    _gameOverText.text = 'GAME  OVER\nSCORE: $_score\nTAP / SPACE TO RETRY';
-    world.add(_gameOverText);
+    overlays.add(kOverlayGameOver);
   }
 
   void _restart() {
-    _gameOverText.removeFromParent();
     _initState();
     _syncFood();
+    _snakeComp.body = List.from(_snake);
+    _scoreText.text = 'SCORE: 0';
   }
 
   // ── Keyboard input (desktop) ───────────────────────────────────────────────
@@ -218,12 +241,9 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks, TapCallbac
   ) {
     if (event is! KeyDownEvent) return KeyEventResult.ignored;
 
-    if (_isGameOver) {
-      if (event.logicalKey == LogicalKeyboardKey.space ||
-          event.logicalKey == LogicalKeyboardKey.enter) {
-        _restart();
-        return KeyEventResult.handled;
-      }
+    // Overlays are active — let Flutter widgets handle their own input.
+    if (overlays.isActive(kOverlayGameOver) ||
+        overlays.isActive(kOverlayLeaderboard)) {
       return KeyEventResult.ignored;
     }
 
@@ -252,11 +272,6 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks, TapCallbac
   // ── Touch / swipe input (mobile & web) ────────────────────────────────────
 
   @override
-  void onTapDown(TapDownEvent event) {
-    if (_isGameOver) _restart();
-  }
-
-  @override
   void onDragStart(DragStartEvent event) {
     super.onDragStart(event);
     _dragDelta.setZero();
@@ -271,18 +286,18 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks, TapCallbac
   @override
   void onDragEnd(DragEndEvent event) {
     super.onDragEnd(event);
-    // Ignore micro-taps
-    if (_dragDelta.length < 20 || _isGameOver) return;
+    // Ignore micro-taps or when overlays are open.
+    if (_dragDelta.length < 20 || _isGameOver || _isPaused) {
+      return;
+    }
 
     if (_dragDelta.x.abs() > _dragDelta.y.abs()) {
-      // Horizontal swipe
       if (_dragDelta.x > 0 && _currentDir != Direction.left) {
         _nextDir = Direction.right;
       } else if (_dragDelta.x < 0 && _currentDir != Direction.right) {
         _nextDir = Direction.left;
       }
     } else {
-      // Vertical swipe
       if (_dragDelta.y > 0 && _currentDir != Direction.up) {
         _nextDir = Direction.down;
       } else if (_dragDelta.y < 0 && _currentDir != Direction.down) {
