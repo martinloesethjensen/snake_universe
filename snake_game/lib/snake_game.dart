@@ -35,6 +35,7 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
   // ── Game state ─────────────────────────────────────────────────────────────
   Direction _currentDir = Direction.right;
   Direction _nextDir = Direction.right;
+  Direction? _queuedDir; // second-slot buffer for rapid key presses
 
   /// Snake body in grid coordinates. Index 0 = head.
   final List<Point<int>> _snake = [];
@@ -185,6 +186,11 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
       _moveTimer = 0;
       _currentDir = _nextDir;
       _step();
+      // Promote the queued direction into the active slot after each step.
+      if (_queuedDir != null) {
+        _nextDir = _queuedDir!;
+        _queuedDir = null;
+      }
     }
 
     // Sync visuals every frame.
@@ -251,6 +257,7 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
       ]);
     _currentDir = Direction.right;
     _nextDir = Direction.right;
+    _queuedDir = null;
     _score = 0;
     _moveTimer = 0;
     _moveSpeed = 0.18;
@@ -343,9 +350,13 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
       if (event.logicalKey == LogicalKeyboardKey.enter ||
           event.logicalKey == LogicalKeyboardKey.space ||
           event.logicalKey == LogicalKeyboardKey.arrowUp ||
+          event.logicalKey == LogicalKeyboardKey.keyW ||
           event.logicalKey == LogicalKeyboardKey.arrowDown ||
+          event.logicalKey == LogicalKeyboardKey.keyS ||
           event.logicalKey == LogicalKeyboardKey.arrowLeft ||
-          event.logicalKey == LogicalKeyboardKey.arrowRight) {
+          event.logicalKey == LogicalKeyboardKey.keyA ||
+          event.logicalKey == LogicalKeyboardKey.arrowRight ||
+          event.logicalKey == LogicalKeyboardKey.keyD) {
         startGame();
         return KeyEventResult.handled;
       }
@@ -353,6 +364,26 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
     }
 
     // Block keys when game-over or leaderboard overlays are active.
+    if (overlays.isActive(kOverlayGameOver) &&
+        event.logicalKey == LogicalKeyboardKey.escape) {
+      restart();
+      return KeyEventResult.handled;
+    }
+    if (overlays.isActive(kOverlayLeaderboard) &&
+        event.logicalKey == LogicalKeyboardKey.escape) {
+      overlays.remove(kOverlayLeaderboard);
+      if (_leaderboardPausedGame) {
+        // Was opened mid-game — keep the game paused, restore pause overlay.
+        _leaderboardPausedGame = false;
+        pauseButtonVisibleNotifier.value = false;
+        overlays.add(kOverlayPause);
+      } else {
+        // Was opened from game-over — prepare start screen, don't auto-start.
+        _restart();
+      }
+      return KeyEventResult.handled;
+    }
+
     if (overlays.isActive(kOverlayGameOver) ||
         overlays.isActive(kOverlayLeaderboard)) {
       return KeyEventResult.ignored;
@@ -360,16 +391,16 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
 
     if (event.logicalKey == LogicalKeyboardKey.arrowUp ||
         event.logicalKey == LogicalKeyboardKey.keyW) {
-      if (_currentDir != Direction.down) _nextDir = Direction.up;
+      _queueDirection(Direction.up, Direction.down);
     } else if (event.logicalKey == LogicalKeyboardKey.arrowDown ||
         event.logicalKey == LogicalKeyboardKey.keyS) {
-      if (_currentDir != Direction.up) _nextDir = Direction.down;
+      _queueDirection(Direction.down, Direction.up);
     } else if (event.logicalKey == LogicalKeyboardKey.arrowLeft ||
         event.logicalKey == LogicalKeyboardKey.keyA) {
-      if (_currentDir != Direction.right) _nextDir = Direction.left;
+      _queueDirection(Direction.left, Direction.right);
     } else if (event.logicalKey == LogicalKeyboardKey.arrowRight ||
         event.logicalKey == LogicalKeyboardKey.keyD) {
-      if (_currentDir != Direction.left) _nextDir = Direction.right;
+      _queueDirection(Direction.right, Direction.left);
     } else if (event.logicalKey == LogicalKeyboardKey.keyP ||
         event.logicalKey == LogicalKeyboardKey.escape) {
       togglePause();
@@ -378,6 +409,21 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
     }
 
     return KeyEventResult.handled;
+  }
+
+  /// Queue a direction change, using a two-slot buffer so rapid key presses
+  /// (faster than one game step) are not silently dropped.
+  ///
+  /// [opposite] is the direction that would cause a 180° reversal from [dir].
+  void _queueDirection(Direction dir, Direction opposite) {
+    // If _nextDir already differs from current (i.e. a turn is buffered),
+    // store this press in the second slot — but only if it's a valid turn
+    // from _nextDir's perspective.
+    if (_nextDir != _currentDir) {
+      if (_nextDir != opposite && dir != opposite) _queuedDir = dir;
+    } else {
+      if (_currentDir != opposite) _nextDir = dir;
+    }
   }
 
   // ── Touch / swipe input (mobile & web) ────────────────────────────────────

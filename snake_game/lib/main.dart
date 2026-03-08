@@ -9,13 +9,13 @@ import 'package:snake_game/snake_game.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 const _supabaseUrl = String.fromEnvironment('SUPABASE_URL');
-const _supabaseAnonKey = String.fromEnvironment('SUPABASE_ANON_KEY');
+const _supabasePublishableKey = String.fromEnvironment('SUPABASE_PUBLISHABLE_KEY');
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // Font is bundled locally — never fetch from the network.
   GoogleFonts.config.allowRuntimeFetching = false;
-  await Supabase.initialize(url: _supabaseUrl, anonKey: _supabaseAnonKey);
+  await Supabase.initialize(url: _supabaseUrl, anonKey: _supabasePublishableKey);
   final game = SnakeGame();
   runApp(_SnakeApp(game: game));
 }

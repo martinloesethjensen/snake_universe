@@ -1,0 +1,34 @@
+flutter_launcher_icons:
+  # ── Android ─────────────────────────────────────────────────────────────────
+  android: true
+  image_path_android: "assets/icons/icon_dark.png"
+  min_sdk_android: 21
+
+  # ── iOS ─────────────────────────────────────────────────────────────────────
+  ios: true
+  image_path_ios: "assets/icons/icon_dark.png"
+  # iOS 18+ dark-mode home screen icon (light snake on dark bg).
+  image_path_ios_dark_transparent: "assets/icons/icon_light.png"
+  remove_alpha_ios: true
+
+  # ── Web ─────────────────────────────────────────────────────────────────────
+  web:
+    generate: true
+    image_path: "assets/icons/icon_dark.png"
+    background_color: "#0A0F0A"
+    theme_color: "#39FF14"
+
+  # ── macOS ────────────────────────────────────────────────────────────────────
+  macos:
+    generate: true
+    image_path: "assets/icons/icon_dark.png"
+
+  # ── Windows ──────────────────────────────────────────────────────────────────
+  windows:
+    generate: true
+    image_path: "assets/icons/icon_dark.png"
+
+  # ── Linux ────────────────────────────────────────────────────────────────────
+  linux:
+    generate: true
+    image_path: "assets/icons/icon_dark.png"

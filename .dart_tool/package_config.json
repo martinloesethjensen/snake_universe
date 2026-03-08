@@ -44,6 +44,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "archive",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/archive-4.0.9",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "args",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/args-2.7.0",
       "packageUri": "lib/",
@@ -62,28 +68,28 @@
       "languageVersion": "3.1"
     },
     {
-      "name": "buffer",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/buffer-1.2.3",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
-    },
-    {
       "name": "characters",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/characters-1.4.1",
       "packageUri": "lib/",
       "languageVersion": "3.4"
     },
     {
-      "name": "charcode",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/charcode-1.4.0",
+      "name": "checked_yaml",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/checked_yaml-2.0.4",
       "packageUri": "lib/",
-      "languageVersion": "3.0"
+      "languageVersion": "3.8"
     },
     {
       "name": "cli_config",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/cli_config-0.2.0",
       "packageUri": "lib/",
       "languageVersion": "3.0"
+    },
+    {
+      "name": "cli_util",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/cli_util-0.4.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.4"
     },
     {
       "name": "clock",
@@ -120,18 +126,6 @@
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/crypto-3.0.7",
       "packageUri": "lib/",
       "languageVersion": "3.4"
-    },
-    {
-      "name": "dart_frog",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/dart_frog-1.2.6",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
-    },
-    {
-      "name": "dart_frog_lint",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/dart_frog_lint-0.1.2",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
     },
     {
       "name": "dart_jsonwebtoken",
@@ -180,6 +174,12 @@
       "rootUri": "file:///Users/mlj/dev/flutter/packages/flutter",
       "packageUri": "lib/",
       "languageVersion": "3.9"
+    },
+    {
+      "name": "flutter_launcher_icons",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/flutter_launcher_icons-0.14.4",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
     },
     {
       "name": "flutter_lints",
@@ -242,22 +242,10 @@
       "languageVersion": "3.9"
     },
     {
-      "name": "hotreloader",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/hotreloader-4.3.0",
-      "packageUri": "lib/",
-      "languageVersion": "3.0"
-    },
-    {
       "name": "http",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/http-1.6.0",
       "packageUri": "lib/",
       "languageVersion": "3.4"
-    },
-    {
-      "name": "http_methods",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/http_methods-1.1.1",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
     },
     {
       "name": "http_multi_server",
@@ -272,10 +260,22 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "image",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/image-4.8.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "io",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/io-1.0.5",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "json_annotation",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/json_annotation-4.11.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.9"
     },
     {
       "name": "jwt_decode",
@@ -315,7 +315,7 @@
     },
     {
       "name": "matcher",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/matcher-0.12.18",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/matcher-0.12.19",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -336,12 +336,6 @@
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/mime-2.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.2"
-    },
-    {
-      "name": "mocktail",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/mocktail-1.0.4",
-      "packageUri": "lib/",
-      "languageVersion": "2.12"
     },
     {
       "name": "native_toolchain_c",
@@ -416,6 +410,12 @@
       "languageVersion": "3.2"
     },
     {
+      "name": "petitparser",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/petitparser-7.0.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.8"
+    },
+    {
       "name": "platform",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/platform-3.1.6",
       "packageUri": "lib/",
@@ -440,10 +440,10 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "postgres",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/postgres-3.5.9",
+      "name": "posix",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/posix-6.5.0",
       "packageUri": "lib/",
-      "languageVersion": "3.9"
+      "languageVersion": "3.0"
     },
     {
       "name": "postgrest",
@@ -524,12 +524,6 @@
       "languageVersion": "3.4"
     },
     {
-      "name": "shelf_hotreload",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/shelf_hotreload-1.6.0",
-      "packageUri": "lib/",
-      "languageVersion": "2.17"
-    },
-    {
       "name": "shelf_packages_handler",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/shelf_packages_handler-3.0.2",
       "packageUri": "lib/",
@@ -590,12 +584,6 @@
       "languageVersion": "3.3"
     },
     {
-      "name": "stream_transform",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/stream_transform-2.1.1",
-      "packageUri": "lib/",
-      "languageVersion": "3.1"
-    },
-    {
       "name": "string_scanner",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/string_scanner-1.4.1",
       "packageUri": "lib/",
@@ -621,19 +609,19 @@
     },
     {
       "name": "test",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/test-1.29.0",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/test-1.30.0",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "test_api",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/test_api-0.7.9",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/test_api-0.7.10",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
     {
       "name": "test_core",
-      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/test_core-0.6.15",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/test_core-0.6.16",
       "packageUri": "lib/",
       "languageVersion": "3.7"
     },
@@ -740,6 +728,12 @@
       "languageVersion": "3.3"
     },
     {
+      "name": "xml",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/xml-6.6.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.8"
+    },
+    {
       "name": "yaml",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/yaml-3.1.3",
       "packageUri": "lib/",
@@ -764,12 +758,6 @@
       "languageVersion": "3.11"
     },
     {
-      "name": "snake_backend",
-      "rootUri": "../snake_backend",
-      "packageUri": "lib/",
-      "languageVersion": "3.11"
-    },
-    {
       "name": "shared_models",
       "rootUri": "../packages/shared_models",
       "packageUri": "lib/",
@@ -777,8 +765,8 @@
     }
   ],
   "generator": "pub",
-  "generatorVersion": "3.11.0",
+  "generatorVersion": "3.11.1",
   "flutterRoot": "file:///Users/mlj/dev/flutter",
-  "flutterVersion": "3.41.2",
+  "flutterVersion": "3.41.4",
   "pubCache": "file:///Users/mlj/.pub-cache"
 }

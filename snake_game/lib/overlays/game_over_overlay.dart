@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:shared_models/shared_models.dart';
 import 'package:snake_game/services/api_service.dart';
@@ -85,6 +86,7 @@ class _GameOverOverlayState extends State<GameOverOverlay> {
                   maxLength: 16,
                   textAlign: TextAlign.center,
                   textCapitalization: TextCapitalization.characters,
+                  inputFormatters: [UpperCaseTextFormatter()],
                   style: px(
                     textStyle: const TextStyle(
                       color: Color(0xFF39FF14),
@@ -164,6 +166,12 @@ class _GameOverOverlayState extends State<GameOverOverlay> {
       ),
     );
   }
+}
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue _, TextEditingValue newValue) =>
+      newValue.copyWith(text: newValue.text.toUpperCase());
 }
 
 class _RetroButton extends StatelessWidget {
