@@ -1,4 +1,5 @@
-import 'package:flutter/foundation.dart' show defaultTargetPlatform, TargetPlatform;
+import 'package:flutter/foundation.dart'
+    show defaultTargetPlatform, TargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:snake_game/snake_game.dart';
@@ -24,9 +25,10 @@ class _StartOverlayState extends State<StartOverlay>
       vsync: this,
       duration: const Duration(milliseconds: 850),
     )..repeat(reverse: true);
-    _opacity = Tween(begin: 0.25, end: 1.0).animate(
-      CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut),
-    );
+    _opacity = Tween(
+      begin: 0.25,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _ctrl, curve: Curves.easeInOut));
   }
 
   @override
@@ -42,8 +44,7 @@ class _StartOverlayState extends State<StartOverlay>
   @override
   Widget build(BuildContext context) {
     final px = GoogleFonts.pressStart2p;
-    final prompt =
-        _isMobile ? 'TAP TO PLAY' : 'PRESS ENTER TO PLAY';
+    final prompt = _isMobile ? 'TAP TO PLAY' : 'PRESS ENTER TO PLAY';
 
     return GestureDetector(
       behavior: HitTestBehavior.opaque,

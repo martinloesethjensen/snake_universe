@@ -35,10 +35,7 @@ class GameBoard extends PositionComponent {
     canvas.drawRect(Rect.fromLTWH(0, 0, gridW, gridH), _bgPaint);
 
     // HUD strip
-    canvas.drawRect(
-      Rect.fromLTWH(0, gridH, gridW, l.hudHeight),
-      _hudPaint,
-    );
+    canvas.drawRect(Rect.fromLTWH(0, gridH, gridW, l.hudHeight), _hudPaint);
 
     // Neon border line between game area and HUD
     canvas.drawLine(Offset(0, gridH), Offset(gridW, gridH), _borderPaint);

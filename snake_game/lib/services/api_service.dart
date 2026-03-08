@@ -10,7 +10,9 @@ class ApiService {
         .select('name, score')
         .order('score', ascending: false)
         .limit(25);
-    return (data as List).map((e) => Score.fromJson(e as Map<String, dynamic>)).toList();
+    return (data as List)
+        .map((e) => Score.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   Future<void> submitScore(Score score) async {

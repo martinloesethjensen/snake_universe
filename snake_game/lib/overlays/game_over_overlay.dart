@@ -170,8 +170,10 @@ class _GameOverOverlayState extends State<GameOverOverlay> {
 
 class UpperCaseTextFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue _, TextEditingValue newValue) =>
-      newValue.copyWith(text: newValue.text.toUpperCase());
+  TextEditingValue formatEditUpdate(
+    TextEditingValue _,
+    TextEditingValue newValue,
+  ) => newValue.copyWith(text: newValue.text.toUpperCase());
 }
 
 class _RetroButton extends StatelessWidget {

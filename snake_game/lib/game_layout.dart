@@ -30,19 +30,28 @@ class GameLayout {
       final cell = w / cols;
       final rows = ((h - minHud) / cell).floor().clamp(10, 60);
       final hudHeight = h - rows * cell; // ≥ minHud by construction
-      return GameLayout(cols: cols, rows: rows, cell: cell, hudHeight: hudHeight);
+      return GameLayout(
+        cols: cols,
+        rows: rows,
+        cell: cell,
+        hudHeight: hudHeight,
+      );
     } else {
       // Landscape / desktop: 20 rows, columns fill width.
       const rows = 20;
       final cell = ((h - minHud) / rows).clamp(16.0, 48.0);
       final cols = (w / cell).floor().clamp(10, 60);
       final hudHeight = h - rows * cell;
-      return GameLayout(cols: cols, rows: rows, cell: cell, hudHeight: hudHeight);
+      return GameLayout(
+        cols: cols,
+        rows: rows,
+        cell: cell,
+        hudHeight: hudHeight,
+      );
     }
   }
 
   /// Returns true when the grid dimensions are unchanged (ignoring cell size
   /// micro-changes from continuous window resizing).
-  bool sameGrid(GameLayout other) =>
-      cols == other.cols && rows == other.rows;
+  bool sameGrid(GameLayout other) => cols == other.cols && rows == other.rows;
 }
