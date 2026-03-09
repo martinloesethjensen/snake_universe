@@ -179,11 +179,15 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
       return;
     }
 
-    // Grid dimensions changed (e.g. orientation flip) — full reinitialisation.
+    // Grid dimensions changed (e.g. orientation flip or mobile keyboard opening)
+    // — full reinitialisation. Capture state before teardown so we can restore
+    // it rather than always landing on the start screen.
     // Defer to a post-frame callback: onGameResize fires inside Flutter's
     // LayoutBuilder build phase, so any ValueNotifier/overlay mutations here
     // would crash with "setState() called during build".
     final capturedLayout = newLayout;
+    final wasGameOver = _isGameOver;
+    final savedScore = _score;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       layout = capturedLayout;
       _rebuilding = true;
@@ -191,7 +195,14 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
       _initState();
       _buildComponents().then((_) {
         _rebuilding = false;
-        _showStartScreen();
+        if (wasGameOver) {
+          _score = savedScore;
+          _isGameOver = true;
+          pauseButtonVisibleNotifier.value = false;
+          overlays.add(kOverlayGameOver);
+        } else {
+          _showStartScreen();
+        }
       });
     });
   }
