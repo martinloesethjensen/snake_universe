@@ -1,7 +1,7 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
-<head>
-  <!--
+    <head>
+        <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
 
@@ -14,33 +14,254 @@
     This is a placeholder for base href that will be replaced by the value of
     the `--base-href` argument provided to `flutter build`.
   -->
-  <base href="$FLUTTER_BASE_HREF">
+        <base href="$FLUTTER_BASE_HREF" />
 
-  <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
-  <meta name="description" content="A new Flutter project.">
+        <meta charset="UTF-8" />
+        <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+        <meta name="description" content="A new Flutter project." />
 
-  <!-- iOS meta tags & icons -->
-  <meta name="mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="snake_game">
-  <link rel="apple-touch-icon" href="icons/Icon-192.png">
+        <!-- iOS meta tags & icons -->
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+        <meta name="apple-mobile-web-app-title" content="snake_game" />
+        <link rel="apple-touch-icon" href="icons/Icon-192.png" />
 
-  <!-- Favicon -->
-  <link rel="icon" type="image/png" href="favicon.png"/>
+        <!-- Favicon -->
+        <link rel="icon" type="image/png" href="favicon.png" />
 
-  <title>snake_game</title>
-  <link rel="manifest" href="manifest.json">
-</head>
-<body>
-  <!--
-    You can customize the "flutter_bootstrap.js" script.
-    This is useful to provide a custom configuration to the Flutter loader
-    or to give the user feedback during the initialization process.
+        <title>Snake Universe</title>
+        <link rel="manifest" href="manifest.json" />
 
-    For more details:
-    * https://docs.flutter.dev/platform-integration/web/initialization
-  -->
-  <script src="flutter_bootstrap.js" async></script>
-</body>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap"
+            rel="stylesheet"
+        />
+
+        <style>
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                background: #000;
+            }
+
+            #splash {
+                position: fixed;
+                inset: 0;
+                background: #000;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                z-index: 9999;
+                font-family: "Press Start 2P", monospace;
+                opacity: 1;
+                transition: opacity 0.5s ease;
+            }
+
+            #splash.fade-out {
+                opacity: 0;
+                pointer-events: none;
+            }
+
+            .splash-title {
+                color: #39ff14;
+                font-size: 36px;
+                letter-spacing: 6px;
+            }
+
+            .splash-subtitle {
+                color: #1a6b00;
+                font-size: 11px;
+                letter-spacing: 4px;
+                margin-top: 8px;
+            }
+
+            #snake-canvas {
+                margin-top: 48px;
+                display: block;
+            }
+
+            #loading-text {
+                color: #39ff14;
+                font-size: 10px;
+                letter-spacing: 2px;
+                margin-top: 48px;
+            }
+        </style>
+    </head>
+    <body>
+        <div id="splash">
+            <div class="splash-title">SNAKE</div>
+            <div class="splash-subtitle">UNIVERSE</div>
+            <canvas id="snake-canvas"></canvas>
+            <div id="loading-text">LOADING...</div>
+        </div>
+
+        <script>
+            // ── Grid constants (must match splash_screen.dart) ──────────────────────
+            const COLS = 12,
+                ROWS = 8,
+                SNAKE_LEN = 9,
+                CELL_MS = 130;
+
+            // Clockwise perimeter circuit
+            const circuit = [];
+            for (let x = 0; x < COLS; x++) circuit.push([x, 0]); // top →
+            for (let y = 1; y < ROWS; y++) circuit.push([COLS - 1, y]); // right ↓
+            for (let x = COLS - 2; x >= 0; x--) circuit.push([x, ROWS - 1]); // bottom ←
+            for (let y = ROWS - 2; y >= 1; y--) circuit.push([0, y]); // left ↑
+
+            const TOTAL_MS = circuit.length * CELL_MS;
+
+            const canvas = document.getElementById("snake-canvas");
+            const ctx = canvas.getContext("2d");
+
+            function resizeCanvas() {
+                const w = Math.min(400, Math.max(200, window.innerWidth * 0.7));
+                canvas.width = w;
+                canvas.height = (w / COLS) * ROWS;
+            }
+            resizeCanvas();
+            window.addEventListener("resize", resizeCanvas);
+
+            function drawFrame(ts) {
+                const W = canvas.width,
+                    H = canvas.height;
+                const cell = W / COLS;
+                const len = circuit.length;
+                const headIdx = Math.floor(((ts % TOTAL_MS) / TOTAL_MS) * len);
+
+                // Background
+                ctx.fillStyle = "#070F03";
+                ctx.fillRect(0, 0, W, H);
+
+                // Grid lines
+                ctx.strokeStyle = "#0D2206";
+                ctx.lineWidth = 0.5;
+                for (let y = 0; y <= ROWS; y++) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, y * cell);
+                    ctx.lineTo(W, y * cell);
+                    ctx.stroke();
+                }
+                for (let x = 0; x <= COLS; x++) {
+                    ctx.beginPath();
+                    ctx.moveTo(x * cell, 0);
+                    ctx.lineTo(x * cell, H);
+                    ctx.stroke();
+                }
+
+                // Food at (5, 3)
+                const fp = 2;
+                ctx.fillStyle = "#FF3366";
+                ctx.fillRect(
+                    5 * cell + fp,
+                    3 * cell + fp,
+                    cell - fp * 2,
+                    cell - fp * 2,
+                );
+
+                // Snake segments — draw tail → head so head is on top
+                for (let i = SNAKE_LEN - 1; i >= 0; i--) {
+                    const idx = (((headIdx - i) % len) + len) % len;
+                    const [gx, gy] = circuit[idx];
+                    const alpha = Math.min(1, 0.3 + 0.7 * (1 - i / SNAKE_LEN));
+                    const pad = i === 0 ? 1 : 2;
+
+                    ctx.fillStyle = `rgba(57,255,20,${alpha.toFixed(3)})`;
+                    ctx.fillRect(
+                        gx * cell + pad,
+                        gy * cell + pad,
+                        cell - pad * 2,
+                        cell - pad * 2,
+                    );
+
+                    // Eyes on head
+                    if (i === 0) {
+                        const [nx, ny] = circuit[(headIdx + 1) % len];
+                        const dx = nx - gx,
+                            dy = ny - gy;
+                        const es = Math.max(2, Math.min(6, cell * 0.18));
+                        const e = 0.22;
+                        let ex1, ey1, ex2, ey2;
+
+                        if (dx === 1) {
+                            ex1 = gx * cell + cell * 0.62;
+                            ey1 = gy * cell + cell * e;
+                            ex2 = gx * cell + cell * 0.62;
+                            ey2 = gy * cell + cell * (1 - e) - es;
+                        } else if (dx === -1) {
+                            ex1 = gx * cell + cell * e;
+                            ey1 = gy * cell + cell * e;
+                            ex2 = gx * cell + cell * e;
+                            ey2 = gy * cell + cell * (1 - e) - es;
+                        } else if (dy === 1) {
+                            ex1 = gx * cell + cell * e;
+                            ey1 = gy * cell + cell * 0.62;
+                            ex2 = gx * cell + cell * (1 - e) - es;
+                            ey2 = gy * cell + cell * 0.62;
+                        } else {
+                            ex1 = gx * cell + cell * e;
+                            ey1 = gy * cell + cell * e;
+                            ex2 = gx * cell + cell * (1 - e) - es;
+                            ey2 = gy * cell + cell * e;
+                        }
+
+                        ctx.fillStyle = "#000";
+                        ctx.fillRect(ex1, ey1, es, es);
+                        ctx.fillRect(ex2, ey2, es, es);
+                    }
+                }
+            }
+
+            // ── Loading text pulse (850 ms per direction, easeInOut) ────────────────
+            const loadingEl = document.getElementById("loading-text");
+            let pulseStart = null;
+
+            function animate(ts) {
+                if (!document.getElementById("splash")) return;
+
+                drawFrame(ts);
+
+                if (!pulseStart) pulseStart = ts;
+                const phase = ((ts - pulseStart) % 1700) / 1700; // 0–1 over full cycle
+                const t = phase < 0.5 ? phase * 2 : (1 - phase) * 2; // triangle 0→1→0
+                // easeInOut
+                const eased =
+                    t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+                loadingEl.style.opacity = (0.25 + 0.75 * eased).toFixed(3);
+
+                requestAnimationFrame(animate);
+            }
+            requestAnimationFrame(animate);
+
+            // ── Remove splash on first Flutter frame ────────────────────────────────
+            let splashDone = false;
+            function removeSplash() {
+                if (splashDone) return;
+                splashDone = true;
+                const splash = document.getElementById("splash");
+                if (!splash) return;
+                splash.classList.add("fade-out");
+                setTimeout(() => {
+                    if (splash.parentNode) splash.remove();
+                }, 500);
+            }
+
+            window.addEventListener("flutter-first-frame", removeSplash);
+            // Safety fallback — remove after 15 s even if event never fires
+            setTimeout(removeSplash, 15000);
+        </script>
+
+        <!-- Flutter bootstrap -->
+        <script src="flutter_bootstrap.js" async></script>
+    </body>
 </html>

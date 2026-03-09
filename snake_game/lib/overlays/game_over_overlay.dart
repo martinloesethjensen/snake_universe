@@ -54,6 +54,9 @@ class _GameOverOverlayState extends State<GameOverOverlay> {
       color: Colors.black.withValues(alpha: 0.88),
       child: Center(
         child: SingleChildScrollView(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.viewInsetsOf(context).bottom,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [

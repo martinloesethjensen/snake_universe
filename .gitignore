@@ -67,3 +67,9 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# Dart/Flutter generated artifacts
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+build/

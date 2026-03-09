@@ -37,39 +37,52 @@ class _SnakeApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
       home: Scaffold(
         backgroundColor: Colors.black,
-        body: Stack(
-          children: [
-            GameWidget<SnakeGame>(
-              game: game,
-              overlayBuilderMap: {
-                kOverlayStartScreen: (_, g) => StartOverlay(game: g),
-                kOverlayGameOver: (_, g) => GameOverOverlay(game: g),
-                kOverlayLeaderboard: (_, g) => LeaderboardOverlay(game: g),
-                kOverlayPause: (_, g) => PauseOverlay(game: g),
-              },
-            ),
-            // Pause button — anchored to the bottom-center of the HUD strip.
-            // Hidden from interaction while the pause overlay is shown.
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              height: 40,
-              child: ValueListenableBuilder<bool>(
-                valueListenable: game.pauseButtonVisibleNotifier,
-                builder: (_, visible, child) =>
-                    Visibility(visible: visible, child: child!),
-                child: Center(child: _PauseButton(game: game)),
+        body: SafeArea(
+          bottom: false,
+          child: Stack(
+            children: [
+              GameWidget<SnakeGame>(
+                game: game,
+                overlayBuilderMap: {
+                  kOverlayStartScreen: (_, g) => StartOverlay(game: g),
+                  kOverlayGameOver: (_, g) => GameOverOverlay(game: g),
+                  kOverlayLeaderboard: (_, g) => LeaderboardOverlay(game: g),
+                  kOverlayPause: (_, g) => PauseOverlay(game: g),
+                },
               ),
-            ),
-            // Trophy button — anchored to the bottom-right of the HUD strip.
-            Positioned(
-              right: 8,
-              bottom: 0,
-              height: 40,
-              child: _TrophyButton(game: game),
-            ),
-          ],
+              // Pause + trophy buttons — sized to match the HUD strip so they
+              // stay vertically aligned with the SCORE text.
+              ValueListenableBuilder<double>(
+                valueListenable: game.hudHeightNotifier,
+                builder: (context, hudH, _) => Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  height: hudH,
+                  child: Row(
+                    children: [
+                      // Left: invisible spacer to balance the trophy button.
+                      const Expanded(child: SizedBox()),
+                      // Centre: pause button (hidden when overlay is active).
+                      ValueListenableBuilder<bool>(
+                        valueListenable: game.pauseButtonVisibleNotifier,
+                        builder: (_, visible, child) =>
+                            Visibility(visible: visible, child: child!),
+                        child: Center(child: _PauseButton(game: game)),
+                      ),
+                      // Right: trophy button.
+                      Expanded(
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: _TrophyButton(game: game),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

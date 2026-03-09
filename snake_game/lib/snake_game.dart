@@ -67,6 +67,10 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
   /// Notifies Flutter widgets whether the pause button should be visible.
   final ValueNotifier<bool> pauseButtonVisibleNotifier = ValueNotifier(true);
 
+  /// Notifies Flutter widgets of the current HUD strip height so buttons
+  /// can be vertically aligned with the SCORE text.
+  final ValueNotifier<double> hudHeightNotifier = ValueNotifier(40.0);
+
   /// Final score to display in the Game Over overlay.
   int get finalScore => _score;
 
@@ -200,6 +204,9 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
 
   // ── Component lifecycle helpers ────────────────────────────────────────────
 
+  // Vertically centre 12 px score text within the HUD strip.
+  double get _scoreTextY => layout.gridH + (layout.hudHeight - 12) / 2;
+
   Future<void> _buildComponents() async {
     _board = GameBoard(layout);
     await world.add(_board);
@@ -222,9 +229,10 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
           ),
         ),
       ),
-      position: Vector2(8, layout.gridH + 10),
+      position: Vector2(8, _scoreTextY),
     );
     await camera.viewport.add(_scoreText);
+    hudHeightNotifier.value = layout.hudHeight;
   }
 
   void _teardownComponents() {
@@ -242,7 +250,8 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
     _board.layout = layout;
     _snakeComp.layout = layout;
     _foodComp.layout = layout;
-    _scoreText.position = Vector2(8, layout.gridH + 10);
+    _scoreText.position = Vector2(8, _scoreTextY);
+    hudHeightNotifier.value = layout.hudHeight;
   }
 
   // ── Game logic ─────────────────────────────────────────────────────────────

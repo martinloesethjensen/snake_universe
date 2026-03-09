@@ -26,6 +26,7 @@ dev_dependencies:
     sdk: flutter
   flutter_lints: ^6.0.0
   flutter_launcher_icons: ^0.14.3
+  flutter_native_splash: ^2.4.6
 
 flutter:
   uses-material-design: true
@@ -35,3 +36,24 @@ flutter:
     - family: PressStart2P
       fonts:
         - asset: fonts/PressStart2P-Regular.ttf
+
+flutter_native_splash:
+  # Black background matching the app's retro style.
+  color: "#000000"
+  color_dark: "#000000"
+
+  # Centred snake icon — same asset used for the app icon.
+  image: assets/icons/icon_dark.png
+  image_dark: assets/icons/icon_dark.png
+
+  # Control which platforms are generated.
+  android: true
+  ios: true
+  web: false
+
+  # Android 12+ adaptive splash icon.
+  android_12:
+    image: assets/icons/icon_dark.png
+    image_dark: assets/icons/icon_dark.png
+    icon_background_color: "#000000"
+    icon_background_color_dark: "#000000"
