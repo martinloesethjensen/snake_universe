@@ -62,6 +62,12 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
   // ── Drag tracking (swipe input) ─────────────────────────────────────────────
   final Vector2 _dragDelta = Vector2.zero();
 
+  // ── Focus management ────────────────────────────────────────────────────────
+
+  /// Set by main.dart to the same FocusNode passed to GameWidget.
+  /// Used to explicitly recapture keyboard focus after overlays are dismissed.
+  FocusNode? gameFocusNode;
+
   // ── Public API (used by Flutter overlays) ──────────────────────────────────
 
   /// Notifies Flutter widgets whether the pause button should be visible.
@@ -91,6 +97,7 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
     pauseButtonVisibleNotifier.value = true;
     _leaderboardPausedGame = false;
     _restart();
+    _returnFocusToGame();
   }
 
   /// Toggle pause state (called from pause button or keyboard).
@@ -127,6 +134,16 @@ class SnakeGame extends FlameGame with KeyboardEvents, DragCallbacks {
       // Came from game-over flow — restart fresh.
       _restart();
     }
+    _returnFocusToGame();
+  }
+
+  /// After dismissing an overlay that captured keyboard focus (e.g. the
+  /// game-over TextField), explicitly release focus so the GameWidget can
+  /// recapture it via its internal autofocus — restoring key event delivery.
+  void _returnFocusToGame() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      gameFocusNode?.requestFocus();
+    });
   }
 
   // ── FlameGame overrides ────────────────────────────────────────────────────

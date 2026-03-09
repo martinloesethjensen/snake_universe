@@ -25,10 +25,29 @@ void main() async {
   runApp(_SnakeApp(game: game));
 }
 
-class _SnakeApp extends StatelessWidget {
+class _SnakeApp extends StatefulWidget {
   const _SnakeApp({required this.game});
 
   final SnakeGame game;
+
+  @override
+  State<_SnakeApp> createState() => _SnakeAppState();
+}
+
+class _SnakeAppState extends State<_SnakeApp> {
+  final _gameFocusNode = FocusNode();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.game.gameFocusNode = _gameFocusNode;
+  }
+
+  @override
+  void dispose() {
+    _gameFocusNode.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -37,12 +56,14 @@ class _SnakeApp extends StatelessWidget {
       theme: ThemeData.dark().copyWith(scaffoldBackgroundColor: Colors.black),
       home: Scaffold(
         backgroundColor: Colors.black,
+        resizeToAvoidBottomInset: false,
         body: SafeArea(
           bottom: false,
           child: Stack(
             children: [
               GameWidget<SnakeGame>(
-                game: game,
+                game: widget.game,
+                focusNode: _gameFocusNode,
                 overlayBuilderMap: {
                   kOverlayStartScreen: (_, g) => StartOverlay(game: g),
                   kOverlayGameOver: (_, g) => GameOverOverlay(game: g),
@@ -53,7 +74,7 @@ class _SnakeApp extends StatelessWidget {
               // Pause + trophy buttons — sized to match the HUD strip so they
               // stay vertically aligned with the SCORE text.
               ValueListenableBuilder<double>(
-                valueListenable: game.hudHeightNotifier,
+                valueListenable: widget.game.hudHeightNotifier,
                 builder: (context, hudH, _) => Positioned(
                   left: 0,
                   right: 0,
@@ -65,16 +86,16 @@ class _SnakeApp extends StatelessWidget {
                       const Expanded(child: SizedBox()),
                       // Centre: pause button (hidden when overlay is active).
                       ValueListenableBuilder<bool>(
-                        valueListenable: game.pauseButtonVisibleNotifier,
+                        valueListenable: widget.game.pauseButtonVisibleNotifier,
                         builder: (_, visible, child) =>
                             Visibility(visible: visible, child: child!),
-                        child: Center(child: _PauseButton(game: game)),
+                        child: Center(child: _PauseButton(game: widget.game)),
                       ),
                       // Right: trophy button.
                       Expanded(
                         child: Align(
                           alignment: Alignment.centerRight,
-                          child: _TrophyButton(game: game),
+                          child: _TrophyButton(game: widget.game),
                         ),
                       ),
                     ],
