@@ -10,6 +10,9 @@ COPY pubspec.lock /pubspec.lock
 # Copy packages
 COPY packages/ /packages/
 
+# Copy snake_game pubspec only (needed to satisfy workspace resolver)
+COPY snake_game/pubspec.yaml /snake_game/pubspec.yaml
+
 # Copy backend source
 COPY backend/ .
 
