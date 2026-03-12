@@ -1,13 +1,16 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_models/shared_models.dart';
 
 class ApiService {
   ApiService({http.Client? client}) : _client = client ?? http.Client();
 
-  static const _baseUrl = 'http://localhost:8080';
+  static const _baseUrl = kReleaseMode
+      ? 'https://snakeuniverse-production.up.railway.app'
+      : 'http://localhost:8080';
 
   final http.Client _client;
 

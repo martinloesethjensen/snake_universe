@@ -23,9 +23,7 @@ jobs:
 
       - name: Build web
         run: |
-          flutter build web \
-            --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
-            --dart-define=SUPABASE_PUBLISHABLE_KEY=${{ secrets.SUPABASE_PUBLISHABLE_KEY }}
+          flutter build web --release
         working-directory: snake_game
 
       - uses: FirebaseExtended/action-hosting-deploy@v0
