@@ -1,22 +1,15 @@
 # Build stage
 FROM dart:stable AS build
 
-WORKDIR /app
+# Mirror the repo workspace structure
+COPY pubspec.yaml /workspace/pubspec.yaml
+COPY pubspec.lock /workspace/pubspec.lock
+COPY packages/ /workspace/packages/
+COPY snake_game/pubspec.yaml /workspace/snake_game/pubspec.yaml
+COPY backend/ /workspace/backend/
 
-# Copy workspace-level pubspec files
-COPY pubspec.yaml /pubspec.yaml
-COPY pubspec.lock /pubspec.lock
+WORKDIR /workspace/backend
 
-# Copy packages
-COPY packages/ /packages/
-
-# Copy snake_game pubspec only (needed to satisfy workspace resolver)
-COPY snake_game/pubspec.yaml /snake_game/pubspec.yaml
-
-# Copy backend source
-COPY backend/ .
-
-# Install dependencies and build
 RUN dart pub get
 RUN dart run dart_frog_cli:dart_frog build
 
@@ -25,8 +18,7 @@ FROM debian:bookworm-slim
 
 WORKDIR /app
 
-# Copy the compiled output from build stage
-COPY --from=build /app/build/bin/server.dart.exe ./server
+COPY --from=build /workspace/backend/build/bin/server.dart.exe ./server
 
 EXPOSE 8080
 
