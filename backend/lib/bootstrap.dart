@@ -10,16 +10,15 @@ Future<HttpServer> bootstrap({
   required int port,
 }) async {
   final supabaseUrl = Platform.environment['SUPABASE_URL'];
-  final supabasePublishableKey =
-      Platform.environment['SUPABASE_PUBLISHABLE_KEY'];
+  final supabaseSecretKey = Platform.environment['SUPABASE_SECRET_KEY'];
 
-  if (supabaseUrl == null || supabasePublishableKey == null) {
+  if (supabaseUrl == null || supabaseSecretKey == null) {
     throw StateError(
-      'Missing required environment variables: SUPABASE_URL and/or SUPABASE_PUBLISHABLE_KEY',
+      'Missing required environment variables: SUPABASE_URL and/or SUPABASE_SECRET_KEY',
     );
   }
 
-  final supabase = SupabaseClient(supabaseUrl, supabasePublishableKey);
+  final supabase = SupabaseClient(supabaseUrl, supabaseSecretKey);
 
   final pipeline = const Pipeline()
       .addMiddleware(supabaseProvider(supabase))
