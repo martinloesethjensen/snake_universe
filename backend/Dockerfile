@@ -5,8 +5,10 @@ FROM dart:stable AS build
 COPY pubspec.yaml /workspace/pubspec.yaml
 COPY pubspec.lock /workspace/pubspec.lock
 COPY packages/ /workspace/packages/
-COPY snake_game/pubspec.yaml /workspace/snake_game/pubspec.yaml
 COPY backend/ /workspace/backend/
+
+# Remove snake_game from workspace — it requires Flutter SDK which isn't available here
+RUN sed -i '/snake_game/d' /workspace/pubspec.yaml
 
 WORKDIR /workspace/backend
 
