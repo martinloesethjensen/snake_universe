@@ -10,7 +10,6 @@ COPY pubspec.lock /pubspec.lock
 # Copy packages
 COPY packages/ /packages/
 
-
 # Copy backend source
 COPY backend/ .
 
@@ -19,7 +18,7 @@ RUN dart pub get
 RUN dart run dart_frog_cli:dart_frog build
 
 # Runtime stage
-FROM dart:stable-small
+FROM debian:bookworm-slim
 
 WORKDIR /app
 
