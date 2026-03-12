@@ -5,6 +5,7 @@ import 'package:snake_game/overlays/game_over_overlay.dart';
 import 'package:snake_game/overlays/leaderboard_overlay.dart';
 import 'package:snake_game/overlays/pause_overlay.dart';
 import 'package:snake_game/overlays/start_overlay.dart';
+import 'package:snake_game/services/api_service.dart';
 import 'package:snake_game/snake_game.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
@@ -22,13 +23,15 @@ void main() async {
     anonKey: _supabasePublishableKey,
   );
   final game = SnakeGame();
-  runApp(_SnakeApp(game: game));
+  final api = ApiService();
+  runApp(_SnakeApp(game: game, api: api));
 }
 
 class _SnakeApp extends StatefulWidget {
-  const _SnakeApp({required this.game});
+  const _SnakeApp({required this.game, required this.api});
 
   final SnakeGame game;
+  final ApiService api;
 
   @override
   State<_SnakeApp> createState() => _SnakeAppState();
@@ -66,8 +69,8 @@ class _SnakeAppState extends State<_SnakeApp> {
                 focusNode: _gameFocusNode,
                 overlayBuilderMap: {
                   kOverlayStartScreen: (_, g) => StartOverlay(game: g),
-                  kOverlayGameOver: (_, g) => GameOverOverlay(game: g),
-                  kOverlayLeaderboard: (_, g) => LeaderboardOverlay(game: g),
+                  kOverlayGameOver: (_, g) => GameOverOverlay(game: g, api: widget.api),
+                  kOverlayLeaderboard: (_, g) => LeaderboardOverlay(game: g, api: widget.api),
                   kOverlayPause: (_, g) => PauseOverlay(game: g),
                 },
               ),

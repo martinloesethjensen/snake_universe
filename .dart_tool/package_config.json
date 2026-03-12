@@ -140,6 +140,18 @@
       "languageVersion": "3.1"
     },
     {
+      "name": "dart_frog",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/dart_frog-1.2.6",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
+      "name": "dart_frog_lint",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/dart_frog_lint-0.1.2",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "dart_jsonwebtoken",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/dart_jsonwebtoken-3.3.2",
       "packageUri": "lib/",
@@ -260,6 +272,12 @@
       "languageVersion": "3.9"
     },
     {
+      "name": "hotreloader",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/hotreloader-4.3.0",
+      "packageUri": "lib/",
+      "languageVersion": "3.0"
+    },
+    {
       "name": "html",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/html-0.15.6",
       "packageUri": "lib/",
@@ -270,6 +288,12 @@
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/http-1.6.0",
       "packageUri": "lib/",
       "languageVersion": "3.4"
+    },
+    {
+      "name": "http_methods",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/http_methods-1.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "http_multi_server",
@@ -360,6 +384,12 @@
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/mime-2.0.0",
       "packageUri": "lib/",
       "languageVersion": "3.2"
+    },
+    {
+      "name": "mocktail",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/mocktail-1.0.4",
+      "packageUri": "lib/",
+      "languageVersion": "2.12"
     },
     {
       "name": "native_toolchain_c",
@@ -548,6 +578,12 @@
       "languageVersion": "3.4"
     },
     {
+      "name": "shelf_hotreload",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/shelf_hotreload-1.6.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.17"
+    },
+    {
       "name": "shelf_packages_handler",
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/shelf_packages_handler-3.0.2",
       "packageUri": "lib/",
@@ -606,6 +642,12 @@
       "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/stream_channel-2.1.4",
       "packageUri": "lib/",
       "languageVersion": "3.3"
+    },
+    {
+      "name": "stream_transform",
+      "rootUri": "file:///Users/mlj/.pub-cache/hosted/pub.dev/stream_transform-2.1.1",
+      "packageUri": "lib/",
+      "languageVersion": "3.1"
     },
     {
       "name": "string_scanner",
@@ -784,6 +826,12 @@
     {
       "name": "snake_game",
       "rootUri": "../snake_game",
+      "packageUri": "lib/",
+      "languageVersion": "3.11"
+    },
+    {
+      "name": "backend",
+      "rootUri": "../backend",
       "packageUri": "lib/",
       "languageVersion": "3.11"
     },

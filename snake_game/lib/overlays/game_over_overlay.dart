@@ -6,9 +6,10 @@ import 'package:snake_game/services/api_service.dart';
 import 'package:snake_game/snake_game.dart';
 
 class GameOverOverlay extends StatefulWidget {
-  const GameOverOverlay({super.key, required this.game});
+  const GameOverOverlay({super.key, required this.game, required this.api});
 
   final SnakeGame game;
+  final ApiService api;
 
   @override
   State<GameOverOverlay> createState() => _GameOverOverlayState();
@@ -16,7 +17,6 @@ class GameOverOverlay extends StatefulWidget {
 
 class _GameOverOverlayState extends State<GameOverOverlay> {
   final _nameController = TextEditingController();
-  final _api = ApiService();
   bool _submitting = false;
   String? _error;
 
@@ -37,7 +37,7 @@ class _GameOverOverlayState extends State<GameOverOverlay> {
       _error = null;
     });
     try {
-      await _api.submitScore(Score(name: name, score: widget.game.finalScore));
+      await widget.api.submitScore(Score(name: name, score: widget.game.finalScore));
       widget.game.openLeaderboard();
     } catch (_) {
       setState(() {

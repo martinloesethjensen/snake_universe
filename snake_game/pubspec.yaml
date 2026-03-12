@@ -18,6 +18,7 @@ dependencies:
   # For 8-bit styled text/UI
   google_fonts: ^6.1.0
 
+  http: ^1.2.0
   shared_models: any
   supabase_flutter: ^2.0.0
 

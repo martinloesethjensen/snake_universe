@@ -5,16 +5,17 @@ import 'package:snake_game/services/api_service.dart';
 import 'package:snake_game/snake_game.dart';
 
 class LeaderboardOverlay extends StatefulWidget {
-  const LeaderboardOverlay({super.key, required this.game});
+  const LeaderboardOverlay({super.key, required this.game, required this.api});
 
   final SnakeGame game;
+  final ApiService api;
 
   @override
   State<LeaderboardOverlay> createState() => _LeaderboardOverlayState();
 }
 
 class _LeaderboardOverlayState extends State<LeaderboardOverlay> {
-  late final Future<List<Score>> _scoresFuture = ApiService().fetchTopScores();
+  late final Future<List<Score>> _scoresFuture = widget.api.fetchTopScores();
 
   @override
   Widget build(BuildContext context) {

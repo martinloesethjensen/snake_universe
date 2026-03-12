@@ -6,4 +6,5 @@ environment:
 
 workspace:
   - snake_game
+  - backend
   - packages/*
