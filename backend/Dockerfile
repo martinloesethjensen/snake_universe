@@ -14,13 +14,16 @@ WORKDIR /workspace/backend
 
 RUN dart pub get
 RUN dart run dart_frog_cli:dart_frog build
+WORKDIR /workspace/backend/build
+RUN dart pub get
+RUN dart compile exe bin/server.dart -o bin/server
 
 # Runtime stage
 FROM debian:bookworm-slim
 
 WORKDIR /app
 
-COPY --from=build /workspace/backend/build/bin/server.dart.exe ./server
+COPY --from=build /workspace/backend/build/bin/server ./server
 
 EXPOSE 8080
 
