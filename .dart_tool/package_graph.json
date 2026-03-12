@@ -39,6 +39,7 @@
         "supabase"
       ],
       "devDependencies": [
+        "dart_frog_cli",
         "dart_frog_lint",
         "mocktail",
         "test"
@@ -102,6 +103,24 @@
       "name": "dart_frog_lint",
       "version": "0.1.2",
       "dependencies": []
+    },
+    {
+      "name": "dart_frog_cli",
+      "version": "1.2.13",
+      "dependencies": [
+        "args",
+        "cli_completion",
+        "dart_frog_gen",
+        "equatable",
+        "mason",
+        "meta",
+        "path",
+        "pub_updater",
+        "pubspec_parse",
+        "stream_transform",
+        "uuid",
+        "watcher"
+      ]
     },
     {
       "name": "supabase",
@@ -496,6 +515,59 @@
       ]
     },
     {
+      "name": "watcher",
+      "version": "1.2.1",
+      "dependencies": [
+        "async",
+        "path"
+      ]
+    },
+    {
+      "name": "stream_transform",
+      "version": "2.1.1",
+      "dependencies": []
+    },
+    {
+      "name": "pub_updater",
+      "version": "0.5.0",
+      "dependencies": [
+        "http",
+        "json_annotation",
+        "process",
+        "pub_semver"
+      ]
+    },
+    {
+      "name": "meta",
+      "version": "1.17.0",
+      "dependencies": []
+    },
+    {
+      "name": "dart_frog_gen",
+      "version": "2.1.0",
+      "dependencies": [
+        "equatable",
+        "path",
+        "pubspec_parse"
+      ]
+    },
+    {
+      "name": "cli_completion",
+      "version": "0.5.1",
+      "dependencies": [
+        "args",
+        "equatable",
+        "mason_logger",
+        "meta",
+        "path"
+      ]
+    },
+    {
+      "name": "args",
+      "version": "2.7.0",
+      "dependencies": []
+    },
+    {
       "name": "logging",
       "version": "1.3.0",
       "dependencies": []
@@ -584,11 +656,6 @@
       "dependencies": []
     },
     {
-      "name": "meta",
-      "version": "1.17.0",
-      "dependencies": []
-    },
-    {
       "name": "http_parser",
       "version": "4.1.2",
       "dependencies": [
@@ -649,11 +716,6 @@
       "dependencies": [
         "flutter"
       ]
-    },
-    {
-      "name": "args",
-      "version": "2.7.0",
-      "dependencies": []
     },
     {
       "name": "json_annotation",
@@ -863,14 +925,6 @@
       "dependencies": [
         "args",
         "yaml"
-      ]
-    },
-    {
-      "name": "watcher",
-      "version": "1.2.1",
-      "dependencies": [
-        "async",
-        "path"
       ]
     },
     {
@@ -1181,11 +1235,6 @@
       ]
     },
     {
-      "name": "stream_transform",
-      "version": "2.1.1",
-      "dependencies": []
-    },
-    {
       "name": "posix",
       "version": "6.5.0",
       "dependencies": [
@@ -1284,6 +1333,83 @@
       "name": "fixnum",
       "version": "1.1.1",
       "dependencies": []
+    },
+    {
+      "name": "pubspec_parse",
+      "version": "1.5.0",
+      "dependencies": [
+        "checked_yaml",
+        "collection",
+        "json_annotation",
+        "pub_semver",
+        "yaml"
+      ]
+    },
+    {
+      "name": "mason",
+      "version": "0.1.2",
+      "dependencies": [
+        "archive",
+        "checked_yaml",
+        "collection",
+        "convert",
+        "crypto",
+        "http",
+        "json_annotation",
+        "mason_logger",
+        "meta",
+        "mustache_template",
+        "path",
+        "pool",
+        "pub_semver",
+        "yaml"
+      ]
+    },
+    {
+      "name": "equatable",
+      "version": "2.0.8",
+      "dependencies": [
+        "collection",
+        "meta"
+      ]
+    },
+    {
+      "name": "process",
+      "version": "5.0.5",
+      "dependencies": [
+        "file",
+        "path",
+        "platform"
+      ]
+    },
+    {
+      "name": "mason_logger",
+      "version": "0.3.3",
+      "dependencies": [
+        "ffi",
+        "io",
+        "win32"
+      ]
+    },
+    {
+      "name": "mustache_template",
+      "version": "2.0.3",
+      "dependencies": []
+    },
+    {
+      "name": "uuid",
+      "version": "4.5.3",
+      "dependencies": [
+        "crypto",
+        "fixnum"
+      ]
+    },
+    {
+      "name": "win32",
+      "version": "5.15.0",
+      "dependencies": [
+        "ffi"
+      ]
     }
   ],
   "configVersion": 1
