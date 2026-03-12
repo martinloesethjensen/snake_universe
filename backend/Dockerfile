@@ -10,6 +10,7 @@ COPY pubspec.lock /pubspec.lock
 # Copy packages
 COPY packages/ /packages/
 
+
 # Copy backend source
 COPY backend/ .
 
